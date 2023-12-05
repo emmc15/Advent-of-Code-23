@@ -46,13 +46,22 @@ func TestSumIntArray(t *testing.T) {
 }
 
 func TestConvertEnglishDigitFromString(t *testing.T) {
-	digit, err := convertEnglishDigitFromString("onetwentysixsomething5")
+	digit1, err := convertEnglishDigitFromString("onetwentysixsixsomething5")
 	if err != nil {
 		t.Error("Error from parsing function")
 	}
-	if digit != "1twenty6something5" {
+	if digit1 != "1twenty66something5" {
 		t.Error("Digit not parsed correctly")
 	}
+
+	digit2, err := convertEnglishDigitFromString("eightwo")
+	if err != nil {
+		t.Error("Error from parsing function")
+	}
+	if digit2 != "82" {
+		t.Error("Digit not parsed correctly")
+	}
+
 }
 
 func TestMain(t *testing.T) {

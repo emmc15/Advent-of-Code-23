@@ -66,9 +66,35 @@ func convertEnglishDigitFromString(digitString string) (string, error) {
 		"nine":  9,
 	}
 
-	// replace any isntances of digit words with ints
+	// iterate over the dictionary
+	var startDigit int
+	var endDigit int
+
+	var digitStringArray string
+	var foundDigits [][]int
 	for key, value := range englishNumbers {
-		digitString = strings.ReplaceAll(digitString, key, strconv.Itoa(value))
+		startDigit = strings.Index(digitString, key)
+		endDigit = strings.LastIndex(digitString, key)
+		if startDigit != -1 || endDigit != -1 {
+			break
+		}
+
+		foundDigits = append(foundDigits, []int{startDigit, endDigit})
+	}
+
+	// if we found a digit
+	if foundDigits == nil {
+		return digitString, nil
+	}
+
+	// check for any overlaps in pair of indexes in foundDigits
+	// if there is an overlap, then we have found the digit
+	var digitFound bool
+	for _, digit := range foundDigits {
+		if digit[0] != -1 && digit[1] != -1 {
+			digitFound = true
+			break
+		}
 	}
 
 	return digitString, nil
@@ -108,6 +134,7 @@ func main() {
 		fmt.Println("Error reading file")
 		return
 	}
+	fmt.Println(len(lines))
 	numbers, err := parseElfNumberFromStringArray(lines)
 	if err != nil {
 		fmt.Println("Error parsing numbers")
@@ -129,7 +156,7 @@ func main() {
 		fmt.Println("Error parsing numbers")
 		return
 	}
-	fmt.Println(englishNumbers)
+	fmt.Println(len(englishNumbers))
 	sumPuzzle2 := sumIntArray(elfNumbers)
 	fmt.Println("puzzle 2:", sumPuzzle2)
 
