@@ -52,6 +52,7 @@ func parseElfNumberFromStringArray(numberStringArray []string) ([]int, error) {
 }
 
 func convertEnglishDigitFromString(digitString string) (string, error) {
+
 	// dictionary of english numbers
 	englishNumbers := map[string]int{
 		"zero":  0,
@@ -66,37 +67,10 @@ func convertEnglishDigitFromString(digitString string) (string, error) {
 		"nine":  9,
 	}
 
-	// iterate over the dictionary
-	var startDigit int
-	var endDigit int
-
-	var digitStringArray string
-	var foundDigits [][]int
-	for key, value := range englishNumbers {
-		startDigit = strings.Index(digitString, key)
-		endDigit = strings.LastIndex(digitString, key)
-		if startDigit != -1 || endDigit != -1 {
-			break
-		}
-
-		foundDigits = append(foundDigits, []int{startDigit, endDigit})
+	// loop trhough the dictionary and replace the english number with the digit
+	for englishNumber, digit := range englishNumbers {
+		digitString = strings.ReplaceAll(digitString, englishNumber, strconv.Itoa(digit))
 	}
-
-	// if we found a digit
-	if foundDigits == nil {
-		return digitString, nil
-	}
-
-	// check for any overlaps in pair of indexes in foundDigits
-	// if there is an overlap, then we have found the digit
-	var digitFound bool
-	for _, digit := range foundDigits {
-		if digit[0] != -1 && digit[1] != -1 {
-			digitFound = true
-			break
-		}
-	}
-
 	return digitString, nil
 }
 

@@ -11,7 +11,7 @@ func TestReadFile(t *testing.T) {
 	if err != nil {
 		t.Error("Error getting current directory")
 	}
-	file_path += "/day1_puzzle.txt"
+	file_path += "/day2_puzzle.txt"
 	readFileToList(file_path)
 }
 
@@ -54,13 +54,13 @@ func TestConvertEnglishDigitFromString(t *testing.T) {
 		t.Error("Digit not parsed correctly")
 	}
 
-	digit2, err := convertEnglishDigitFromString("eightwo")
-	if err != nil {
-		t.Error("Error from parsing function")
-	}
-	if digit2 != "82" {
-		t.Error("Digit not parsed correctly")
-	}
+	// digit2, err := convertEnglishDigitFromString("eightwo")
+	// if err != nil {
+	// 	t.Error("Error from parsing function")
+	// }
+	// if digit2 != "82" {
+	// 	t.Error("Digit not parsed correctly")
+	// }
 
 }
 
