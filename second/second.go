@@ -27,6 +27,18 @@ func (re ElfGame) getGreenCubeCount() int {
 	return sumIntArray(re.greenCubes)
 }
 
+func (re ElfGame) getBlueCubeMax() int {
+	return maxIntArray(re.blueCubes)
+}
+
+func (re ElfGame) getRedCubeMax() int {
+	return maxIntArray(re.redCubes)
+}
+
+func (re ElfGame) getGreenCubeMax() int {
+	return maxIntArray(re.greenCubes)
+}
+
 func readFileToList(filePath string) ([]string, error) {
 	content, err := os.ReadFile(filePath)
 	if err != nil {
@@ -124,13 +136,30 @@ func sumIntArray(intArray []int) int {
 	return sum
 }
 
+func maxIntArray(intArray []int) int {
+	var max int
+	for _, number := range intArray {
+		if number > max {
+			max = number
+		}
+	}
+	return max
+}
+
 func filterElfGamesByCubeCounts(games []ElfGame, blueCubeCount int, redCubeCount int, greenCubeCount int) []ElfGame {
 	var filteredGames []ElfGame
 	for _, game := range games {
-
-		if game.getBlueCubeCount() <= blueCubeCount && game.getRedCubeCount() <= redCubeCount && game.getGreenCubeCount() <= greenCubeCount {
-			filteredGames = append(filteredGames, game)
+		if game.getBlueCubeMax() > blueCubeCount {
+			continue
 		}
+		if game.getRedCubeMax() > redCubeCount {
+			continue
+		}
+		if game.getGreenCubeMax() > greenCubeCount {
+			continue
+		}
+		filteredGames = append(filteredGames, game)
+
 	}
 	return filteredGames
 }
@@ -169,7 +198,14 @@ func main() {
 	for _, game := range filteredGames {
 		sum += game.game
 	}
-	fmt.Printf("%+v", filteredGames)
+	// fmt.Printf("%+v", filteredGames)
 	fmt.Println("puzzle 1:", sum)
 
+	// puzzle 2
+	power := 0
+	for _, game := range games {
+		power += game.getBlueCubeMax() * game.getRedCubeMax() * game.getGreenCubeMax()
+	}
+
+	fmt.Println("puzzle 2:", power)
 }
