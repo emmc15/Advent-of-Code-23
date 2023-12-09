@@ -56,7 +56,6 @@ func parseElfGameString(elfString string) *ElfGame {
 	}
 
 	cubeString := strings.Split(elfString, ":")[1]
-
 	cubeArray := strings.Split(cubeString, ",")
 
 	var blueCubes []int
@@ -68,13 +67,15 @@ func parseElfGameString(elfString string) *ElfGame {
 		// regex out digit
 		re := regexp.MustCompile("(\\d+)")
 		countString := re.FindString(cube)
+		countInt, err := strconv.Atoi(countString)
+		if err != nil {
+			fmt.Println("Error converting string to int")
+			return nil
+		}
+		// fmt.Println(cube, countString, countInt)
 
 		if strings.HasSuffix(cube, "blue") {
-			countInt, err := strconv.Atoi(countString)
-			if err != nil {
-				fmt.Println("Error converting string to int")
-				return nil
-			}
+
 			blueCubes = append(blueCubes, countInt)
 
 		} else if strings.HasSuffix(cube, "red") {
@@ -168,7 +169,7 @@ func main() {
 	for _, game := range filteredGames {
 		sum += game.game
 	}
-	fmt.Println(filteredGames)
+	fmt.Printf("%+v", filteredGames)
 	fmt.Println("puzzle 1:", sum)
 
 }
